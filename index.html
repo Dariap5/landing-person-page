@@ -1463,6 +1463,46 @@
             closeContact();
         }
     });
+        const ENDPOINT = "https://script.google.com/macros/s/AKfycbx7wWJp9bWeX_zBY6rjXPkluQTvMeucbmT9k2mk9QrngG7ZZnXkRt8yQSZSsjCltFsqQw/exec";
+
+document.getElementById("contact-submit").addEventListener("click", async () => {
+
+  const name = document.getElementById("contact-name").value.trim();
+  const contact = document.getElementById("contact-info").value.trim();
+  const message = document.getElementById("contact-message").value.trim();
+
+  if (!contact) return;
+
+  const payload = {
+    name,
+    contact,
+    message,
+    page: location.href,
+    user_agent: navigator.userAgent
+  };
+
+  try {
+    const res = await fetch(ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    if (data.ok) {
+      alert("Отправлено 👍");
+    } else {
+      alert("Ошибка отправки");
+    }
+
+  } catch (e) {
+    console.error(e);
+    alert("Ошибка соединения");
+  }
+});
     </script>
 
 </body>
